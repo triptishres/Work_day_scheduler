@@ -45,4 +45,43 @@ $(document).ready(function() {
         }
     });
 
+    //Checking for local storage to set value to the object
+    let timeObject = {};
+    if (localStorage.getItem('timeObject')) {
+        timeObject = JSON.parse(localStorage.getItem('timeObject'));
+    } else {
+        timeObject = {
+            '9': { time: "9", value: "" },
+            '10': { time: "10", value: "" },
+            '11': { time: "11", value: "" },
+            '12': { time: "12", value: "" },
+            '13': { time: "13", value: "" },
+            '14': { time: "14", value: "" },
+            '15': { time: "15", value: "" },
+            '16': { time: "16", value: "" },
+            '17': { time: "17", value: "" }
+        };
+    }
+
+    //setting the value of timeObject to equal the user input for each row 
+    $(".time-block").each(function() {
+        $(this).find(".textArea").val(timeObject[$(this).attr("data-time")].value);
+        //console.log(this)
+    });
+
+    //saving the value to local storage on click
+    $(".saveBtn").on('click', function(event) {
+        //set timeObject time attribute
+        let timeValue = $(this).closest(".time-block").attr("data-time");
+        //set timeObject value attribute
+        let textValue = $(this).closest(".time-block").find(".textArea").val();
+        timeObject[timeValue].value = textValue;
+
+        //saving the user input in each object to local storage
+        localStorage.setItem('timeObject', JSON.stringify(timeObject));
+
+        //console.log(textValue)
+
+    });
+
 });
